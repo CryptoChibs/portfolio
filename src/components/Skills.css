@@ -1,0 +1,41 @@
+.skills-sub {
+  font-size: 1.15rem;
+  margin: 0.5rem 0 0.85rem;
+  color: var(--navy);
+}
+
+.depth-foam .skills-sub {
+  color: var(--foam);
+}
+
+.skills-grid {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+}
+
+.skills-card {
+  padding: 1.15rem 1.2rem;
+}
+
+.skills-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin: 0 0 0.65rem;
+  color: var(--navy);
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+@media (max-width: 700px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}

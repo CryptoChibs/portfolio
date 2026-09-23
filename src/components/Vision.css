@@ -1,0 +1,72 @@
+.vision {
+  text-align: center;
+}
+
+.vision .section-head {
+  margin-inline: auto;
+  max-width: 40rem;
+}
+
+.vision-prose {
+  margin: 0 auto 1.75rem;
+  max-width: 48rem;
+  text-align: left;
+}
+
+.vision-prose h3 {
+  font-size: 1.25rem;
+  margin: 0 0 0.65rem;
+}
+
+.vision-prose p {
+  margin: 0 0 0.85rem;
+  font-size: 1.02rem;
+}
+
+.vision-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.vision-lead {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.1rem !important;
+}
+
+.vision-looking-intro {
+  margin-bottom: 0.65rem !important;
+}
+
+.vision-looking {
+  margin: 0;
+  padding: 0 0 0 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.vision-looking li {
+  font-size: 1.02rem;
+}
+
+.vision-dev {
+  padding: 1.35rem 1.45rem;
+  margin: 0.5rem auto 0;
+  max-width: 48rem;
+  text-align: left;
+}
+
+.vision-dev h3 {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem;
+}
+
+.vision-dev .skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.depth-foam .vision-dev h3 {
+  color: var(--navy);
+}

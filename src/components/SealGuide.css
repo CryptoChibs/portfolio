@@ -1,0 +1,161 @@
+.seal-guide {
+  position: fixed;
+  right: clamp(0.75rem, 3vw, 1.75rem);
+  bottom: clamp(0.75rem, 3vw, 1.5rem);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+body.exp-panel-open .seal-guide {
+  display: none;
+}
+
+.seal-bubble {
+  pointer-events: auto;
+  max-width: min(240px, 70vw);
+  padding: 0.85rem 1rem 0.7rem;
+  background: var(--foam);
+  border: 2px solid rgba(243, 182, 200, 0.55);
+  border-radius: 1.1rem 1.1rem 0.35rem 1.1rem;
+  box-shadow: var(--shadow);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--sea-deep);
+  line-height: 1.35;
+}
+
+.seal-bubble p {
+  margin: 0;
+  color: var(--sea-deep);
+}
+
+.seal-bubble-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+.seal-btn {
+  pointer-events: auto;
+  width: var(--seal-size);
+  height: calc(var(--seal-size) * 1.1);
+  padding: 0;
+  border: none;
+  background: transparent;
+  filter: drop-shadow(0 10px 18px rgba(15, 95, 110, 0.22));
+}
+
+.seal-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.foquito-mood-wrap {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.foquito-ribbons {
+  transform-origin: 110px 30px;
+  animation: ribbon-sway 3.6s ease-in-out infinite;
+}
+
+.foquito-hearts {
+  animation: heart-pop 0.6s ease-out;
+}
+
+@keyframes ribbon-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes heart-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.seal-bob {
+  animation: seal-bob 3.2s ease-in-out infinite;
+}
+
+.seal-hat {
+  transform-origin: 80px 32px;
+  animation: hat-tilt 3.2s ease-in-out infinite;
+}
+
+.seal-flipper-l {
+  transform-origin: 48px 112px;
+  animation: flipper-l 2.4s ease-in-out infinite;
+}
+
+.seal-flipper-r {
+  transform-origin: 112px 112px;
+  animation: flipper-r 2.4s ease-in-out infinite 0.2s;
+}
+
+@keyframes seal-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes hat-tilt {
+  0%,
+  100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes flipper-l {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes flipper-r {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .seal-bubble {
+    max-width: min(200px, 62vw);
+    font-size: 0.85rem;
+  }
+}

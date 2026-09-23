@@ -1,0 +1,29 @@
+.many-tabs .section-head {
+  margin-bottom: 1.25rem;
+}
+
+.many-tabs-caption {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.many-tabs-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.many-tabs-grid li {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 252, 248, 0.55);
+  border: 1px dashed rgba(44, 61, 82, 0.18);
+  color: var(--navy);
+}

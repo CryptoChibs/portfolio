@@ -1,0 +1,257 @@
+.recommendations .section-head {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.rec-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.rec-carousel-stage {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 420px) 2.4rem;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.rec-carousel-frame {
+  width: min(420px, calc(100vw - 7rem));
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+}
+
+.rec-carousel-nav {
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid rgba(255, 252, 248, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 252, 248, 0.18);
+  color: inherit;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.rec-carousel-nav:hover:not(:disabled) {
+  background: rgba(255, 252, 248, 0.85);
+  color: var(--navy);
+}
+
+.rec-carousel-nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Lucy (and any quote) — square slide, scrolls if needed */
+.rec-square {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.15rem 1.2rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  box-sizing: border-box;
+}
+
+.rec-square-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  flex-shrink: 0;
+}
+
+.rec-photo,
+.rec-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rec-avatar {
+  display: grid;
+  place-items: center;
+  background: rgba(126, 168, 192, 0.35);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.rec-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.rec-meta a,
+.rec-meta strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 0.98rem;
+}
+
+.rec-meta a:hover {
+  color: var(--blue-mid);
+}
+
+.rec-role {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: var(--navy-soft);
+}
+
+.rec-context {
+  font-size: 0.74rem;
+  color: var(--navy-soft);
+  opacity: 0.85;
+}
+
+.rec-quote {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--navy);
+}
+
+.depth-foam .rec-quote,
+.depth-foam .rec-meta a,
+.depth-foam .rec-meta strong {
+  color: var(--navy);
+}
+
+.depth-foam .rec-role,
+.depth-foam .rec-context {
+  color: var(--navy-soft);
+}
+
+.rec-shot-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 1px solid rgba(255, 252, 248, 0.18);
+  border-radius: 1rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #1e1f22;
+  cursor: zoom-in;
+}
+
+.rec-shot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.rec-carousel-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  width: min(420px, calc(100vw - 7rem));
+  margin-top: 0.55rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.rec-shot-label {
+  min-width: 0;
+}
+
+.rec-carousel-count {
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rec-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+  width: min(420px, calc(100vw - 7rem));
+}
+
+.rec-carousel-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 252, 248, 0.35);
+  cursor: pointer;
+}
+
+.rec-carousel-dot.is-active {
+  background: rgba(255, 252, 248, 0.95);
+  transform: scale(1.15);
+}
+
+.rec-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(8, 20, 32, 0.88);
+  cursor: zoom-out;
+}
+
+.rec-lightbox img {
+  max-width: min(720px, 100%);
+  max-height: calc(100vh - 3rem);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  cursor: default;
+}
+
+.rec-lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 252, 248, 0.9);
+  color: var(--navy);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 560px) {
+  .rec-carousel-stage {
+    grid-template-columns: minmax(0, 420px);
+  }
+
+  .rec-carousel-nav {
+    display: none;
+  }
+
+  .rec-carousel-frame,
+  .rec-carousel-meta,
+  .rec-carousel-dots {
+    width: min(420px, 100%);
+  }
+}

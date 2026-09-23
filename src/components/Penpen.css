@@ -1,0 +1,60 @@
+.penpen-svg {
+  width: min(100%, 340px);
+  height: auto;
+  filter: drop-shadow(0 16px 28px rgba(90, 100, 120, 0.22));
+  animation: penpen-bob 4s ease-in-out infinite;
+}
+
+.penpen-wing-l {
+  transform-origin: 48px 110px;
+  animation: wing-l 3.2s ease-in-out infinite;
+}
+
+.penpen-wing-r {
+  transform-origin: 152px 110px;
+  animation: wing-r 3.2s ease-in-out infinite 0.15s;
+}
+
+@keyframes penpen-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes wing-l {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes wing-r {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .penpen-svg,
+  .penpen-wing-l,
+  .penpen-wing-r {
+    animation: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .penpen-svg {
+    width: 180px;
+  }
+}

@@ -1,0 +1,48 @@
+.lily {
+  position: absolute;
+  width: 64px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.92;
+  animation: lily-float 5.5s ease-in-out infinite;
+}
+
+.lily svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(44, 61, 82, 0.15));
+}
+
+.lily-hide {
+  top: 1.25rem;
+  right: 1.5rem;
+  transform: rotate(-12deg);
+}
+
+.lily-upside {
+  bottom: 1rem;
+  left: 8%;
+  transform: rotate(160deg);
+  width: 52px;
+  opacity: 0.75;
+}
+
+@keyframes lily-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
+  }
+}
+
+@media (max-width: 640px) {
+  .lily {
+    width: 48px;
+  }
+
+  .lily-upside {
+    display: none;
+  }
+}

@@ -1,0 +1,74 @@
+.featured-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+}
+
+.featured-card {
+  display: block;
+  padding: 1.25rem 1.3rem;
+  text-decoration: none;
+  color: inherit;
+  min-height: 8.5rem;
+}
+
+.featured-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.35rem;
+  color: var(--navy);
+}
+
+.featured-card p {
+  margin: 0 0 0.75rem;
+}
+
+.featured-go {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--blue-mid);
+}
+
+.featured-card:hover .featured-go {
+  color: var(--navy);
+}
+
+.featured-links {
+  margin-top: 1.1rem;
+  padding: 1.15rem 1.25rem;
+}
+
+.featured-links h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.65rem;
+  color: var(--navy);
+}
+
+.featured-links ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.1rem;
+}
+
+.featured-links a {
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--blue-mid);
+}
+
+.featured-links a:hover {
+  color: var(--navy);
+}
+
+@media (max-width: 640px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+}

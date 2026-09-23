@@ -1,0 +1,9 @@
+.contact {
+  padding-bottom: 7rem;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}

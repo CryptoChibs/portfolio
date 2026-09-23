@@ -1,0 +1,78 @@
+.pebble {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.pebble img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 14px rgba(44, 61, 82, 0.14));
+}
+
+.pebble-sm {
+  position: absolute;
+  width: 56px;
+  animation: pebble-bob 3.8s ease-in-out infinite;
+}
+
+.pebble-lg {
+  position: relative;
+  width: 100%;
+  animation: pebble-bob 4.2s ease-in-out infinite;
+}
+
+.pebble-interactive {
+  pointer-events: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pebble-corner {
+  bottom: 0.5rem;
+  right: 18%;
+  opacity: 0.9;
+}
+
+.pebble-stop-right {
+  right: 1.25rem;
+  left: auto;
+  bottom: 4.5rem;
+}
+
+.pebble-stop-left {
+  left: 1.25rem;
+  right: auto;
+  bottom: 4.5rem;
+}
+
+@keyframes pebble-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pebble-sm,
+  .pebble-lg {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .pebble-sm {
+    width: 42px;
+    right: 12%;
+  }
+
+  .pebble-stop-right,
+  .pebble-stop-left {
+    bottom: 3.25rem;
+  }
+}
