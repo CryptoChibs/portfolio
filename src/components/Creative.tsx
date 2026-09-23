@@ -8,6 +8,39 @@ type Kind = (typeof site.galleryKinds)[number]
 
 const PAGE_SIZE = 6
 
+type PagerToken = number | 'ellipsis'
+
+/** First/last few, plus the current page. Gaps become an ellipsis. */
+function galleryPager(current: number, total: number): PagerToken[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i)
+
+  const want = new Set<number>()
+  const nearStart = current < 3
+  const nearEnd = current > total - 4
+
+  if (nearStart || nearEnd) {
+    for (let i = 0; i < 3; i++) want.add(i)
+    for (let i = total - 3; i < total; i++) want.add(i)
+  }
+
+  want.add(0)
+  want.add(total - 1)
+  for (let i = current - 1; i <= current + 1; i++) {
+    if (i >= 0 && i < total) want.add(i)
+  }
+
+  const sorted = [...want].sort((a, b) => a - b)
+  const out: PagerToken[] = []
+  for (let i = 0; i < sorted.length; i++) {
+    const n = sorted[i]
+    const prev = sorted[i - 1]
+    if (i > 0 && n - prev === 2) out.push(prev + 1)
+    else if (i > 0 && n - prev > 1) out.push('ellipsis')
+    out.push(n)
+  }
+  return out
+}
+
 export function Creative() {
   const [project, setProject] = useState<Project>('All')
   const [kind, setKind] = useState<Kind>('All')
@@ -170,18 +203,24 @@ export function Creative() {
             ‹
           </button>
           <div className="gallery-pager-pages">
-            {Array.from({ length: pageCount }, (_, i) => (
-              <button
-                key={i}
-                type="button"
-                className={`gallery-pager-page${i === safePage ? ' is-active' : ''}`}
-                aria-label={`Page ${i + 1}`}
-                aria-current={i === safePage ? 'page' : undefined}
-                onClick={() => setPage(i)}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {galleryPager(safePage, pageCount).map((token, i) =>
+              token === 'ellipsis' ? (
+                <span key={`ellipsis-${i}`} className="gallery-pager-ellipsis" aria-hidden="true">
+                  ···
+                </span>
+              ) : (
+                <button
+                  key={token}
+                  type="button"
+                  className={`gallery-pager-page${token === safePage ? ' is-active' : ''}`}
+                  aria-label={`Page ${token + 1}`}
+                  aria-current={token === safePage ? 'page' : undefined}
+                  onClick={() => setPage(token)}
+                >
+                  {token + 1}
+                </button>
+              ),
+            )}
           </div>
           <button
             type="button"

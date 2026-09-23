@@ -826,9 +826,10 @@
   },
   gallery: [
     // Collab.Land
-    { id: 'cl-a1', project: 'Collab.Land', kind: 'Community', label: 'Community announcement', src: '/Screenshots/Collab.Land/Announcement1.png', fit: 'cover' },
+    { id: 'cl-a1', project: 'Collab.Land', kind: 'Community', label: 'Community announcement', src: '/Screenshots/Collab.Land/Announcement.png', fit: 'cover' },
     { id: 'cl-a2', project: 'Collab.Land', kind: 'Community', label: 'Community announcement', src: '/Screenshots/Collab.Land/Announcement2.png', fit: 'cover' },
     { id: 'cl-a3', project: 'Collab.Land', kind: 'Community', label: 'Community announcement', src: '/Screenshots/Collab.Land/Announcement3.png', fit: 'cover' },
+    { id: 'cl-a4', project: 'Collab.Land', kind: 'Community', label: 'Articles campaign', src: '/Screenshots/Collab.Land/Announcement4.png', fit: 'cover' },
     { id: 'cl-msgs', project: 'Collab.Land', kind: 'Impact', label: '15,113 messages in one day', src: '/Screenshots/Collab.Land/Messages.png', fit: 'contain' },
     { id: 'cl-arrests', project: 'Collab.Land', kind: 'Impact', label: '9 arrests during the token claim', src: '/Screenshots/Collab.Land/Arrests.png', fit: 'contain' },
     { id: 'cl-sent', project: 'Collab.Land', kind: 'Impact', label: 'Community feedback', src: '/Screenshots/Collab.Land/Community_Sentiment1.png', fit: 'cover' },
@@ -851,6 +852,8 @@
     { id: 'cl-cal', project: 'Collab.Land', kind: 'Events', label: 'Community event calendar', src: '/Screenshots/Collab.Land/Weekly_Calendar1.png', fit: 'cover' },
     { id: 'cl-xgame1', project: 'Collab.Land', kind: 'Events', label: 'Community game on X', src: '/Screenshots/Collab.Land/X_Game1.png', fit: 'cover' },
     { id: 'cl-xgame2', project: 'Collab.Land', kind: 'Events', label: 'Community game on X', src: '/Screenshots/Collab.Land/X_Game2.png', fit: 'cover' },
+    { id: 'cl-x1', project: 'Collab.Land', kind: 'Product', label: 'Member Portal beta on X', src: '/Screenshots/Collab.Land/X_Announcement.png', fit: 'contain' },
+    { id: 'cl-x2', project: 'Collab.Land', kind: 'Events', label: 'Birthday giveaway on X', src: '/Screenshots/Collab.Land/X_Announcement2.png', fit: 'contain' },
     { id: 'cl-m1', project: 'Collab.Land', kind: 'Memes', label: 'Community meme', src: '/Screenshots/Collab.Land/Meme1.png', fit: 'cover' },
     { id: 'cl-m2', project: 'Collab.Land', kind: 'Memes', label: 'Community meme', src: '/Screenshots/Collab.Land/Meme2.png', fit: 'cover' },
     { id: 'cl-st1', project: 'Collab.Land', kind: 'Product', label: 'SmartTag product work', src: '/Screenshots/Collab.Land/SmartTag.png', fit: 'cover' },

@@ -202,7 +202,16 @@
 
 .gallery-pager-pages {
   display: flex;
+  align-items: center;
   gap: 0.35rem;
+}
+
+.gallery-pager-ellipsis {
+  width: 1.6rem;
+  text-align: center;
+  letter-spacing: 0.04em;
+  opacity: 0.55;
+  user-select: none;
 }
 
 .gallery-pager-page.is-active,
