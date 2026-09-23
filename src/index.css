@@ -42,6 +42,13 @@ html {
   zoom: 0.9;
 }
 
+@media (max-width: 720px) {
+  html {
+    /* Root zoom lays the page out wider than the phone and clips the header. */
+    zoom: 1;
+  }
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -451,6 +458,6 @@ button {
   }
 
   :root {
-    --seal-size: 100px;
+    --seal-size: 76px;
   }
 }

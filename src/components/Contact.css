@@ -2,6 +2,12 @@
   padding-bottom: 7rem;
 }
 
+@media (max-width: 640px) {
+  .contact {
+    padding-bottom: calc(var(--seal-size) * 1.1 + 2.25rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .contact-actions {
   display: flex;
   flex-wrap: wrap;

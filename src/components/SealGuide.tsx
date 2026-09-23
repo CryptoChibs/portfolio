@@ -23,6 +23,7 @@ const SECTIONS: SectionId[] = [
 export type FoquitoMood = 'calm' | 'happy' | 'wink' | 'surprised' | 'sparkle'
 
 const MOODS: FoquitoMood[] = ['calm', 'happy', 'wink', 'surprised', 'sparkle']
+const BUBBLE_MS = 5000
 
 function FurDots() {
   // soft sherpa speckles like the plush texture
@@ -270,6 +271,12 @@ export function SealGuide() {
       window.removeEventListener('scroll', onScroll)
     }
   }, [])
+
+  useEffect(() => {
+    if (!showBubble) return
+    const id = window.setTimeout(() => setShowBubble(false), BUBBLE_MS)
+    return () => window.clearTimeout(id)
+  }, [showBubble, section, tipIndex])
 
   const tips = site.sealTips[section]
   const tip = tips[tipIndex % tips.length]

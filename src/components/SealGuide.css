@@ -154,8 +154,18 @@ body.exp-panel-open .seal-guide {
 }
 
 @media (max-width: 640px) {
+  .seal-guide {
+    right: calc(0.65rem + env(safe-area-inset-right, 0px));
+    bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  }
+
   .seal-bubble {
-    max-width: min(200px, 62vw);
-    font-size: 0.85rem;
+    max-width: min(180px, 58vw);
+    padding: 0.7rem 0.85rem 0.55rem;
+    font-size: 0.8rem;
+  }
+
+  .seal-bubble-hint {
+    font-size: 0.65rem;
   }
 }
