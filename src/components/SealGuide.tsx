@@ -1,5 +1,5 @@
 ﻿import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { site, type SectionId } from '../content/site'
 import './SealGuide.css'
 
@@ -24,6 +24,8 @@ export type FoquitoMood = 'calm' | 'happy' | 'wink' | 'surprised' | 'sparkle'
 
 const MOODS: FoquitoMood[] = ['calm', 'happy', 'wink', 'surprised', 'sparkle']
 const BUBBLE_MS = 5000
+const NARROW = '(max-width: 640px)'
+const SWIPE_TIP = 'Swipe the card, or tap the arrows.'
 
 function FurDots() {
   // soft sherpa speckles like the plush texture
@@ -195,6 +197,9 @@ export function SealGuide() {
   const [tipIndex, setTipIndex] = useState(0)
   const [showBubble, setShowBubble] = useState(true)
   const [mood, setMood] = useState<FoquitoMood>('calm')
+  const [narrow, setNarrow] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(NARROW).matches,
+  )
 
   useEffect(() => {
     const ratios = new Map<SectionId, number>()
@@ -278,7 +283,18 @@ export function SealGuide() {
     return () => window.clearTimeout(id)
   }, [showBubble, section, tipIndex])
 
-  const tips = site.sealTips[section]
+  useEffect(() => {
+    const mq = window.matchMedia(NARROW)
+    const onChange = () => setNarrow(mq.matches)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  const tips = useMemo(() => {
+    const base = site.sealTips[section]
+    if (narrow && section === 'recommendations') return [SWIPE_TIP, ...base]
+    return base
+  }, [narrow, section])
   const tip = tips[tipIndex % tips.length]
 
   const onSealClick = useCallback(() => {

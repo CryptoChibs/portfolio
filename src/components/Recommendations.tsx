@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { site } from '../content/site'
 import './Recommendations.css'
@@ -51,17 +51,44 @@ const slides: Slide[] = [
 export function Recommendations() {
   const [index, setIndex] = useState(0)
   const [lightbox, setLightbox] = useState<ShotSlide | null>(null)
+  const suppressClick = useRef(false)
   const total = slides.length
   const current = slides[index]
-
-  const caption = useMemo(() => {
-    if (!current) return ''
-    return current.kind === 'quote' ? current.name : current.label
-  }, [current])
 
   const go = (dir: -1 | 1) => {
     if (total < 2) return
     setIndex((i) => (i + dir + total) % total)
+  }
+
+  const onFramePointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (total < 2 || lightbox) return
+    if ((e.target as HTMLElement).closest('a, .rec-carousel-nav')) return
+
+    suppressClick.current = false
+    const startX = e.clientX
+    const startY = e.clientY
+    const pointerId = e.pointerId
+
+    const finish = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return
+      cleanup()
+      const dx = ev.clientX - startX
+      const dy = ev.clientY - startY
+      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.2) return
+      suppressClick.current = true
+      go(dx < 0 ? 1 : -1)
+    }
+    const cancel = (ev: PointerEvent) => {
+      if (ev.pointerId !== pointerId) return
+      cleanup()
+    }
+    const cleanup = () => {
+      window.removeEventListener('pointerup', finish)
+      window.removeEventListener('pointercancel', cancel)
+    }
+
+    window.addEventListener('pointerup', finish)
+    window.addEventListener('pointercancel', cancel)
   }
 
   useEffect(() => {
@@ -100,24 +127,13 @@ export function Recommendations() {
         <h2 id="recommendations-title">Recommendations</h2>
       </div>
 
-      <div className="rec-carousel">
       <div
-        className="rec-carousel-stage"
+        className="rec-carousel"
         role="region"
         aria-roledescription="carousel"
         aria-label="Recommendations"
       >
-        <button
-          type="button"
-          className="rec-carousel-nav"
-          aria-label="Previous"
-          onClick={() => go(-1)}
-          disabled={total < 2}
-        >
-          ‹
-        </button>
-
-        <div className="rec-carousel-frame">
+        <div className="rec-carousel-frame" onPointerDown={onFramePointerDown}>
           {current.kind === 'quote' ? (
             <article className="rec-square card ink-card">
               <header className="rec-square-head">
@@ -149,48 +165,67 @@ export function Recommendations() {
           ) : (
             <button
               type="button"
-              className="rec-shot-frame"
-              onClick={() => setLightbox(current)}
+              className="rec-shot card ink-card"
+              onClick={() => {
+                if (suppressClick.current) {
+                  suppressClick.current = false
+                  return
+                }
+                setLightbox(current)
+              }}
               aria-label={`Open ${current.label}`}
             >
-              <img key={current.id} src={current.src} alt={current.label} />
+              <span className="rec-shot-label">{current.label}</span>
+              <span className="rec-shot-frame">
+                <img key={current.id} src={current.src} alt="" />
+              </span>
             </button>
           )}
         </div>
 
-        <button
-          type="button"
-          className="rec-carousel-nav"
-          aria-label="Next"
-          onClick={() => go(1)}
-          disabled={total < 2}
-        >
-          ›
-        </button>
-      </div>
+        <div className="rec-carousel-controls">
+          <button
+            type="button"
+            className="rec-carousel-nav rec-carousel-nav--prev"
+            aria-label="Previous"
+            onClick={() => go(-1)}
+            disabled={total < 2}
+          >
+            ‹
+          </button>
 
-      <div className="rec-carousel-meta">
-        <span className="rec-shot-label">{caption}</span>
-        <span className="rec-carousel-count">
-          {index + 1} / {total}
-        </span>
-      </div>
+          {total > 1 ? (
+            <div className="rec-carousel-dots" role="tablist" aria-label="Slides">
+              {slides.map((slide, i) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === index}
+                  aria-label={slide.kind === 'quote' ? slide.name : slide.label}
+                  className={`rec-carousel-dot${i === index ? ' is-active' : ''}`}
+                  onClick={() => setIndex(i)}
+                />
+              ))}
+            </div>
+          ) : null}
 
-      {total > 1 ? (
-        <div className="rec-carousel-dots" role="tablist" aria-label="Slides">
-          {slides.map((slide, i) => (
-            <button
-              key={slide.id}
-              type="button"
-              role="tab"
-              aria-selected={i === index}
-              aria-label={slide.kind === 'quote' ? slide.name : slide.label}
-              className={`rec-carousel-dot${i === index ? ' is-active' : ''}`}
-              onClick={() => setIndex(i)}
-            />
-          ))}
+          <button
+            type="button"
+            className="rec-carousel-nav rec-carousel-nav--next"
+            aria-label="Next"
+            onClick={() => go(1)}
+            disabled={total < 2}
+          >
+            ›
+          </button>
         </div>
-      ) : null}
+
+        <div className="rec-carousel-meta">
+          <span className="rec-carousel-count">
+            {index + 1} / {total}
+          </span>
+        </div>
       </div>
 
       {lightbox
