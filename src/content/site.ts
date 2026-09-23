@@ -775,6 +775,16 @@
   ],
   recommendations: [
     {
+      name: 'Kalena Suárez',
+      role: 'Executive Assistant and Project Management',
+      context:
+        "September 23, 2026 · Angela was senior to Kalena but didn't manage Kalena directly",
+      quote:
+        "I would like to highlight how reliable and valuable Angela is as a member of a team. During the time I worked with her, she consistently exceeded expectations, learned new processes remarkably quickly, and could be trusted to take ownership of complex responsibilities with minimal supervision.\n\nAngela combines strong technical and operational skills with exceptional soft skills. She is patient, thoughtful, creative, resourceful, and highly motivated. She has a natural ability to understand both the details of a problem and the bigger picture, which allows her to find practical solutions and keep projects moving forward.\n\nOne of Angela's greatest strengths is her attention to detail. She doesn't simply complete a task and move on; she looks for ways to improve the process, identify potential problems, and make things work better. Her creativity and initiative were consistently valuable to our team, particularly when dealing with situations that required flexibility, problem-solving, and independent thinking.\n\nShe is also an excellent communicator and collaborator. Angela is someone who can work effectively with different people, understand their needs, and help turn complicated situations into clear, actionable next steps. Whether supporting customers, coordinating operations, managing community needs, or working across teams, she brings the same level of care and ownership to her work.\n\nI genuinely believe Angela is one of the most creative and capable professionals I have had the pleasure of working with. Her combination of reliability, curiosity, adaptability, and problem-solving ability makes her someone any team can depend on. I would be very happy to recommend her to any organization looking for someone who will not only meet expectations, but actively look for ways to make things better.",
+      href: '',
+      image: '/People/Kalena.jpg',
+    },
+    {
       name: 'Lucy Jane Wright',
       role: 'Remote Operations Manager | Airbnb Property Management | Virtual Assistant | Bookkeeper | Payroll Manager',
       context: 'October 10, 2025 · Lucy Jane managed Angela directly',
@@ -784,7 +794,7 @@
       image: '/People/Lucy.jpg',
     },
   ],
-  /** Extra recommendation slides (Discord screenshots) - joined with Lucy in one carousel */
+  /** Extra recommendation slides (Discord screenshots) - joined with the written ones in one carousel */
   recommendationShots: [
     {
       id: 'banano-team-1',

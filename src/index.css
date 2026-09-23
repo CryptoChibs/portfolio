@@ -38,6 +38,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Default view is a step tighter than the browser's 100%. User zoom still stacks on this. */
+  zoom: 0.9;
 }
 
 body {

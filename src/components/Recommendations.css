@@ -124,6 +124,7 @@
   font-size: 0.95rem;
   line-height: 1.5;
   color: var(--navy);
+  white-space: pre-line;
 }
 
 .depth-foam .rec-quote,
