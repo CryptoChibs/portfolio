@@ -957,7 +957,6 @@
     ],
     experience: [
       'Plot twist: she worked in a video game store before Web3.',
-      'Customer-facing → ops → community → support → product.',
       'Tap Learn more on Collab.Land for support numbers and a launch story.',
       'Banano is where the community arc really started.',
     ],

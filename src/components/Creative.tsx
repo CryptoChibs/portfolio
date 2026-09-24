@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useState } from 'react'
+﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { site } from '../content/site'
 import './Creative.css'
@@ -6,7 +6,9 @@ import './Creative.css'
 type Project = (typeof site.galleryProjects)[number]
 type Kind = (typeof site.galleryKinds)[number]
 
-const PAGE_SIZE = 6
+const WIDE_PAGE_SIZE = 6
+const NARROW_PAGE_SIZE = 4
+const NARROW_GALLERY = '(max-width: 800px)'
 
 type PagerToken = number | 'ellipsis'
 
@@ -41,11 +43,55 @@ function galleryPager(current: number, total: number): PagerToken[] {
   return out
 }
 
+type ScrollEdges = { start: boolean; end: boolean }
+
+function useScrollEdges(
+  ref: { current: HTMLDivElement | null },
+  key: string,
+  setEdges: (next: ScrollEdges | ((prev: ScrollEdges) => ScrollEdges)) => void,
+) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) {
+      setEdges((prev) => (prev.start || prev.end ? { start: false, end: false } : prev))
+      return
+    }
+    let alive = true
+    const update = () => {
+      const max = el.scrollWidth - el.clientWidth
+      const start = el.scrollLeft > 6
+      const end = max - el.scrollLeft > 6
+      setEdges((prev) => (prev.start === start && prev.end === end ? prev : { start, end }))
+    }
+    update()
+    el.addEventListener('scroll', update, { passive: true })
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    document.fonts?.ready.then(() => {
+      if (alive) update()
+    })
+    return () => {
+      alive = false
+      el.removeEventListener('scroll', update)
+      ro.disconnect()
+    }
+  }, [ref, key, setEdges])
+}
+
 export function Creative() {
   const [project, setProject] = useState<Project>('All')
   const [kind, setKind] = useState<Kind>('All')
   const [page, setPage] = useState(0)
   const [lightbox, setLightbox] = useState<(typeof site.gallery)[number] | null>(null)
+  const [pageSize, setPageSize] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia(NARROW_GALLERY).matches
+      ? NARROW_PAGE_SIZE
+      : WIDE_PAGE_SIZE,
+  )
+  const projectsRef = useRef<HTMLDivElement>(null)
+  const kindsRef = useRef<HTMLDivElement>(null)
+  const [projectEdges, setProjectEdges] = useState<ScrollEdges>({ start: false, end: false })
+  const [kindEdges, setKindEdges] = useState<ScrollEdges>({ start: false, end: false })
 
   const projectSelected = project !== 'All'
 
@@ -66,15 +112,38 @@ export function Creative() {
     })
   }, [project, kind, projectSelected])
 
-  const pageCount = Math.max(1, Math.ceil(items.length / PAGE_SIZE))
+  const pageCount = Math.max(1, Math.ceil(items.length / pageSize))
   const safePage = Math.min(page, pageCount - 1)
-  const pageItems = items.slice(safePage * PAGE_SIZE, safePage * PAGE_SIZE + PAGE_SIZE)
+  const pageItems = items.slice(safePage * pageSize, safePage * pageSize + pageSize)
 
   const selectProject = (next: Project) => {
     setProject(next)
     setKind('All')
     setPage(0)
   }
+
+  useEffect(() => {
+    const row = projectsRef.current
+    const active = row?.querySelector<HTMLElement>('.gallery-project.is-active')
+    if (!row || !active) return
+    const pad = 52
+    const left = active.offsetLeft
+    const right = left + active.offsetWidth
+    const viewLeft = row.scrollLeft + pad
+    const viewRight = row.scrollLeft + row.clientWidth - pad
+    if (left < viewLeft) row.scrollTo({ left: Math.max(0, left - pad) })
+    else if (right > viewRight) row.scrollTo({ left: right - row.clientWidth + pad })
+  }, [project])
+
+  useEffect(() => {
+    const mq = window.matchMedia(NARROW_GALLERY)
+    const onChange = () => setPageSize(mq.matches ? NARROW_PAGE_SIZE : WIDE_PAGE_SIZE)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  useScrollEdges(projectsRef, site.galleryProjects.join('|'), setProjectEdges)
+  useScrollEdges(kindsRef, kindsForProject.join('|'), setKindEdges)
 
   const selectKind = (next: Kind) => {
     setKind(next)
@@ -126,7 +195,13 @@ export function Creative() {
       </div>
 
       <div className="gallery-toolbar">
-        <div className="gallery-projects" role="tablist" aria-label="Gallery projects">
+        <div className="gallery-scroll">
+        <div
+          className={`gallery-projects${projectEdges.start ? ' can-scroll-start' : ''}${projectEdges.end ? ' can-scroll-end' : ''}`}
+          role="tablist"
+          aria-label="Gallery projects"
+          ref={projectsRef}
+        >
           {site.galleryProjects.map((p) => (
             <button
               key={p}
@@ -140,9 +215,16 @@ export function Creative() {
             </button>
           ))}
         </div>
+        </div>
 
         {projectSelected ? (
-          <div className="gallery-kinds" role="tablist" aria-label={`${project} categories`}>
+          <div className="gallery-scroll">
+          <div
+            className={`gallery-kinds${kindEdges.start ? ' can-scroll-start' : ''}${kindEdges.end ? ' can-scroll-end' : ''}`}
+            role="tablist"
+            aria-label={`${project} categories`}
+            ref={kindsRef}
+          >
             <span className="gallery-kinds-label">Filter</span>
             {kindsForProject.map((k) => (
               <button
@@ -156,6 +238,7 @@ export function Creative() {
                 {k}
               </button>
             ))}
+          </div>
           </div>
         ) : null}
       </div>
@@ -191,7 +274,7 @@ export function Creative() {
         <p className="gallery-empty">Nothing in this combo yet - try another filter.</p>
       ) : null}
 
-      {items.length > PAGE_SIZE ? (
+      {items.length > pageSize ? (
         <nav className="gallery-pager" aria-label="Gallery pages">
           <button
             type="button"
@@ -202,6 +285,9 @@ export function Creative() {
           >
             ‹
           </button>
+          <span className="gallery-pager-count">
+            {safePage + 1} / {pageCount}
+          </span>
           <div className="gallery-pager-pages">
             {galleryPager(safePage, pageCount).map((token, i) =>
               token === 'ellipsis' ? (

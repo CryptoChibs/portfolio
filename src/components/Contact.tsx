@@ -25,6 +25,7 @@ export function Contact() {
           Download CV
         </a>
       </div>
+      <p className="contact-where">🌎 Argentina · Remote · EST-friendly</p>
     </section>
   )
 }
