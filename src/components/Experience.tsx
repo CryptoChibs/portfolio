@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { site } from '../content/site'
+import { usePresence } from '../usePresence'
 import './Experience.css'
 
 type Job = (typeof site.experience)[number]
@@ -13,9 +14,11 @@ function jobHasMore(job: Job) {
 
 function ExperiencePanel({
   job,
+  open,
   onClose,
 }: {
   job: Job
+  open: boolean
   onClose: () => void
 }) {
   const titleId = useId()
@@ -34,6 +37,7 @@ function ExperiencePanel({
     : undefined
   const shots = story && 'shots' in story ? story.shots : undefined
   const [openShot, setOpenShot] = useState<NonNullable<typeof shots>[number] | null>(null)
+  const shot = usePresence(openShot, 280)
 
   useEffect(() => {
     const prevOverflow = document.body.style.overflow
@@ -53,7 +57,7 @@ function ExperiencePanel({
   }, [onClose, openShot])
 
   return createPortal(
-    <div className="exp-panel-root" role="presentation">
+    <div className={`exp-panel-root${open ? ' is-open' : ''}`} role="presentation">
       <button type="button" className="exp-panel-backdrop" aria-label="Close details" onClick={onClose} />
       <aside
         className="exp-panel"
@@ -172,12 +176,12 @@ function ExperiencePanel({
           ) : null}
         </div>
       </aside>
-      {openShot ? (
+      {shot.rendered ? (
         <div
-          className="exp-shot-lightbox"
+          className={`exp-shot-lightbox${shot.open ? ' is-open' : ''}`}
           role="dialog"
           aria-modal="true"
-          aria-label={openShot.label}
+          aria-label={shot.rendered.label}
           onClick={() => setOpenShot(null)}
         >
           <button
@@ -189,8 +193,8 @@ function ExperiencePanel({
             ×
           </button>
           <figure onClick={(e) => e.stopPropagation()}>
-            <img src={openShot.src} alt={openShot.label} />
-            <figcaption>{openShot.label}</figcaption>
+            <img src={shot.rendered.src} alt={shot.rendered.label} />
+            <figcaption>{shot.rendered.label}</figcaption>
           </figure>
         </div>
       ) : null}
@@ -207,6 +211,7 @@ export function Experience() {
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
   const highlightTimer = useRef<number | null>(null)
   const openJob = site.experience.find((j) => j.id === openId) ?? null
+  const panel = usePresence(openJob, 280)
 
   useEffect(() => {
     if (!highlightId) return
@@ -337,7 +342,9 @@ export function Experience() {
         })}
       </ul>
 
-      {openJob ? <ExperiencePanel job={openJob} onClose={() => setOpenId(null)} /> : null}
+      {panel.rendered ? (
+        <ExperiencePanel job={panel.rendered} open={panel.open} onClose={() => setOpenId(null)} />
+      ) : null}
     </section>
   )
 }

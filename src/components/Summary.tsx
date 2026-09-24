@@ -24,7 +24,9 @@ export function Summary() {
       <h3 className="highlights-title">Career highlights</h3>
       <ul className={`highlights-list${highlightsOpen ? ' is-open' : ''}`}>
         {site.highlights.map((h) => (
-          <li key={h}>{h}</li>
+          <li key={h}>
+            <span className="highlights-text">{h}</span>
+          </li>
         ))}
       </ul>
       {hasMore ? (

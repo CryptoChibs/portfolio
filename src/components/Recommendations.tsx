@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { createPortal } from 'react-dom'
 import { site } from '../content/site'
+import { usePresence } from '../usePresence'
 import './Recommendations.css'
 
 type QuoteSlide = {
@@ -51,6 +52,7 @@ const slides: Slide[] = [
 export function Recommendations() {
   const [index, setIndex] = useState(0)
   const [lightbox, setLightbox] = useState<ShotSlide | null>(null)
+  const shownLightbox = usePresence(lightbox, 280)
   const suppressClick = useRef(false)
   const total = slides.length
   const current = slides[index]
@@ -92,7 +94,7 @@ export function Recommendations() {
   }
 
   useEffect(() => {
-    if (!lightbox) return
+    if (!shownLightbox.rendered) return
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => {
@@ -103,7 +105,7 @@ export function Recommendations() {
       document.body.style.overflow = prevOverflow
       window.removeEventListener('keydown', onKey)
     }
-  }, [lightbox])
+  }, [shownLightbox.rendered])
 
   useEffect(() => {
     if (lightbox || total < 2) return
@@ -232,13 +234,13 @@ export function Recommendations() {
         </div>
       </div>
 
-      {lightbox
+      {shownLightbox.rendered
         ? createPortal(
             <div
-              className="rec-lightbox"
+              className={`rec-lightbox${shownLightbox.open ? ' is-open' : ''}`}
               role="dialog"
               aria-modal="true"
-              aria-label={lightbox.label}
+              aria-label={shownLightbox.rendered.label}
               onClick={() => setLightbox(null)}
             >
               <button
@@ -249,7 +251,11 @@ export function Recommendations() {
               >
                 ×
               </button>
-              <img src={lightbox.src} alt={lightbox.label} onClick={(e) => e.stopPropagation()} />
+              <img
+                src={shownLightbox.rendered.src}
+                alt={shownLightbox.rendered.label}
+                onClick={(e) => e.stopPropagation()}
+              />
             </div>,
             document.body,
           )

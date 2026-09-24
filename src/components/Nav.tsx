@@ -3,7 +3,6 @@ import { site } from '../content/site'
 import './Nav.css'
 
 const links = [
-  { href: '#home', label: 'Home' },
   { href: '#summary', label: 'About' },
   { href: '#cases', label: 'Projects' },
   { href: '#experience', label: 'Experience' },
@@ -52,9 +51,13 @@ export function Nav() {
 
   return (
     <div className={`nav-wrap${open ? ' is-open' : ''}`} ref={wrapRef}>
-      {open ? (
-        <button type="button" className="nav-backdrop" aria-label="Close menu" onClick={close} />
-      ) : null}
+      <button
+        type="button"
+        className="nav-backdrop"
+        aria-label="Close menu"
+        tabIndex={open ? 0 : -1}
+        onClick={close}
+      />
       <header className="nav">
         <a className="nav-brand" href="#home" onClick={close}>
           {site.fullName}
@@ -75,6 +78,7 @@ export function Nav() {
           <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
         </button>
         <nav id={menuId} className="nav-menu" aria-label="Primary">
+          <div className="nav-menu-inner">
           <ul className="nav-links">
             {links.map((l) => (
               <li key={l.href}>
@@ -84,6 +88,7 @@ export function Nav() {
               </li>
             ))}
           </ul>
+          </div>
         </nav>
       </header>
     </div>

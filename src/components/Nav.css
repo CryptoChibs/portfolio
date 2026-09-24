@@ -26,14 +26,26 @@
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 600;
-  color: var(--navy);
+  background-image: linear-gradient(105deg, #d998a3 0%, #c4848e 46%, #b76e78 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   text-decoration: none;
   flex-shrink: 0;
   min-width: 0;
 }
 
+.nav-brand,
 .nav-brand:hover {
-  color: var(--pink-deep);
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.nav-brand:hover {
+  background-image: none;
+  background-color: #8f4e5c;
+  -webkit-text-fill-color: #8f4e5c;
+  color: #8f4e5c;
 }
 
 .nav-toggle {
@@ -62,6 +74,10 @@
 .nav-links a:hover {
   opacity: 1;
   color: var(--navy);
+}
+
+.nav-menu-inner {
+  display: contents;
 }
 
 .nav-backdrop {
@@ -118,27 +134,52 @@
   }
 
   .nav-menu {
-    display: none;
+    display: grid;
+    grid-template-rows: 0fr;
     position: absolute;
     left: 0;
     right: 0;
     top: 100%;
     z-index: 2;
-    max-height: calc(100dvh - var(--nav-h));
-    overflow: auto;
+    overflow: hidden;
     background: #e4d6c6;
-    border-bottom: 1px solid rgba(44, 61, 82, 0.12);
-    box-shadow: 0 16px 32px rgba(44, 61, 82, 0.12);
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.24s ease,
+      visibility 0s linear 0.34s;
   }
 
   .nav-wrap.is-open .nav-menu {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    border-bottom-color: rgba(44, 61, 82, 0.12);
+    box-shadow: 0 16px 32px rgba(44, 61, 82, 0.12);
+    transition:
+      grid-template-rows 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.24s ease,
+      visibility 0s linear 0s;
+  }
+
+  .nav-menu-inner {
     display: block;
+    width: 100%;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .nav-links {
     flex-direction: column;
     align-items: stretch;
+    justify-content: flex-start;
     gap: 0;
+    width: 100%;
     padding: 0.35rem 0 0.55rem;
   }
 
@@ -166,11 +207,21 @@
     border: 0;
     padding: 0;
     background: rgba(26, 45, 66, 0.28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+
+  .nav-wrap.is-open .nav-backdrop {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 
 @media (max-width: 720px) and (prefers-reduced-motion: reduce) {
-  .nav-toggle-icon span {
+  .nav-toggle-icon span,
+  .nav-menu,
+  .nav-backdrop {
     transition: none;
   }
 }

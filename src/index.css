@@ -14,8 +14,8 @@
   --navy-soft: #4a5d72;
   --deep: #1a2d42;
   --deepest: #121f2e;
-  --pink: #f3b6c8;
-  --pink-deep: #e891a8;
+  --pink: #ebbec4;
+  --pink-deep: #d998a3;
   --lavender: #c9b8e0;
   --foam: #f6f0e8;
   --ink: var(--navy);
@@ -261,13 +261,13 @@ button {
 }
 
 .btn-accent {
-  background: var(--pink);
+  background: linear-gradient(105deg, #efd1d5 0%, #ebbec4 46%, #d998a3 100%);
   color: var(--navy);
-  box-shadow: 0 8px 20px rgba(232, 145, 168, 0.28);
+  box-shadow: 0 8px 20px rgba(183, 110, 120, 0.26);
 }
 
 .btn-accent:hover {
-  background: var(--pink-deep);
+  background: linear-gradient(105deg, #ebbec4 0%, #d998a3 58%, #b76e78 100%);
   color: var(--navy);
 }
 

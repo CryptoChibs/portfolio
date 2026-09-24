@@ -1,6 +1,7 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { site } from '../content/site'
+import { usePresence } from '../usePresence'
 import './Creative.css'
 
 type Project = (typeof site.galleryProjects)[number]
@@ -83,6 +84,7 @@ export function Creative() {
   const [kind, setKind] = useState<Kind>('All')
   const [page, setPage] = useState(0)
   const [lightbox, setLightbox] = useState<(typeof site.gallery)[number] | null>(null)
+  const shownLightbox = usePresence(lightbox, 280)
   const [pageSize, setPageSize] = useState(() =>
     typeof window !== 'undefined' && window.matchMedia(NARROW_GALLERY).matches
       ? NARROW_PAGE_SIZE
@@ -115,6 +117,11 @@ export function Creative() {
   const pageCount = Math.max(1, Math.ceil(items.length / pageSize))
   const safePage = Math.min(page, pageCount - 1)
   const pageItems = items.slice(safePage * pageSize, safePage * pageSize + pageSize)
+  const pageSig = pageItems.map((item) => item.id).join('|')
+  const [gridItems, setGridItems] = useState(pageItems)
+  const [leavingItems, setLeavingItems] = useState<typeof pageItems | null>(null)
+  const gridSig = useRef(pageSig)
+  const gridItemsRef = useRef(pageItems)
 
   const selectProject = (next: Project) => {
     setProject(next)
@@ -175,7 +182,7 @@ export function Creative() {
   }, [page, safePage])
 
   useEffect(() => {
-    if (!lightbox) return
+    if (!shownLightbox.rendered) return
     const prevOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => {
@@ -186,7 +193,17 @@ export function Creative() {
       document.body.style.overflow = prevOverflow
       window.removeEventListener('keydown', onKey)
     }
-  }, [lightbox])
+  }, [shownLightbox.rendered])
+
+  useEffect(() => {
+    if (pageSig === gridSig.current) return
+    setLeavingItems(gridItemsRef.current)
+    gridItemsRef.current = pageItems
+    gridSig.current = pageSig
+    setGridItems(pageItems)
+    const id = window.setTimeout(() => setLeavingItems(null), 320)
+    return () => window.clearTimeout(id)
+  }, [pageSig, pageItems])
 
   return (
     <section id="creative" className="section creative" aria-labelledby="creative-title">
@@ -243,32 +260,57 @@ export function Creative() {
         ) : null}
       </div>
 
-      <ul className="gallery-grid">
-        {pageItems.map((item) => {
-          const tall = item.fit === 'contain'
-          return (
-            <li key={item.id} className="gallery-item">
-              <figure className={`gallery-figure${tall ? ' is-tall' : ''}`}>
-                <button
-                  type="button"
-                  className="gallery-frame"
-                  onClick={() => setLightbox(item)}
-                  aria-label={`Open ${item.label}`}
-                >
-                  <img src={item.src} alt={item.label} loading="lazy" />
-                </button>
-                <figcaption>
-                  <span className="gallery-slot-label">{item.label}</span>
-                  <span className="gallery-slot-cat">
-                    {item.project} · {item.kind}
-                    {/_ES/i.test(item.src) ? ' · LATAM' : ''}
-                  </span>
-                </figcaption>
-              </figure>
-            </li>
-          )
-        })}
-      </ul>
+      <div className="gallery-stage">
+        {leavingItems ? (
+          <ul className="gallery-grid is-out" aria-hidden="true">
+            {leavingItems.map((item) => {
+              const tall = item.fit === 'contain'
+              return (
+                <li key={item.id} className="gallery-item">
+                  <figure className={`gallery-figure${tall ? ' is-tall' : ''}`}>
+                    <div className="gallery-frame">
+                      <img src={item.src} alt="" />
+                    </div>
+                    <figcaption>
+                      <span className="gallery-slot-label">{item.label}</span>
+                      <span className="gallery-slot-cat">
+                        {item.project} · {item.kind}
+                        {/_ES/i.test(item.src) ? ' · LATAM' : ''}
+                      </span>
+                    </figcaption>
+                  </figure>
+                </li>
+              )
+            })}
+          </ul>
+        ) : null}
+        <ul className={`gallery-grid${leavingItems ? ' is-in' : ''}`}>
+          {gridItems.map((item) => {
+            const tall = item.fit === 'contain'
+            return (
+              <li key={item.id} className="gallery-item">
+                <figure className={`gallery-figure${tall ? ' is-tall' : ''}`}>
+                  <button
+                    type="button"
+                    className="gallery-frame"
+                    onClick={() => setLightbox(item)}
+                    aria-label={`Open ${item.label}`}
+                  >
+                    <img src={item.src} alt={item.label} loading="lazy" />
+                  </button>
+                  <figcaption>
+                    <span className="gallery-slot-label">{item.label}</span>
+                    <span className="gallery-slot-cat">
+                      {item.project} · {item.kind}
+                      {/_ES/i.test(item.src) ? ' · LATAM' : ''}
+                    </span>
+                  </figcaption>
+                </figure>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
 
       {items.length === 0 ? (
         <p className="gallery-empty">Nothing in this combo yet - try another filter.</p>
@@ -320,13 +362,13 @@ export function Creative() {
         </nav>
       ) : null}
 
-      {lightbox
+      {shownLightbox.rendered
         ? createPortal(
             <div
-              className="gallery-lightbox"
+              className={`gallery-lightbox${shownLightbox.open ? ' is-open' : ''}`}
               role="dialog"
               aria-modal="true"
-              aria-label={lightbox.label}
+              aria-label={shownLightbox.rendered.label}
               onClick={() => setLightbox(null)}
             >
               <button
@@ -338,8 +380,8 @@ export function Creative() {
                 ×
               </button>
               <img
-                src={lightbox.src}
-                alt={lightbox.label}
+                src={shownLightbox.rendered.src}
+                alt={shownLightbox.rendered.label}
                 onClick={(e) => e.stopPropagation()}
               />
             </div>,
