@@ -6,7 +6,7 @@
 .rec-carousel {
   display: grid;
   grid-template-columns: 2.4rem minmax(0, 420px) 2.4rem;
-  column-gap: 0.75rem;
+  column-gap: 0.4rem;
   row-gap: 0.55rem;
   align-items: center;
   justify-content: center;
@@ -66,11 +66,49 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 0;
+  padding: 1.5rem 1.25rem 1.5rem 1.15rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.rec-scroll {
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
-  padding: 1.15rem 1.2rem;
+  min-height: 0;
+  height: 100%;
   overflow: auto;
   overscroll-behavior: contain;
-  box-sizing: border-box;
+  padding: 0.3rem 0.65rem 0.3rem 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink) transparent;
+}
+
+.rec-scroll::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+
+.rec-scroll::-webkit-scrollbar-button,
+.rec-scroll::-webkit-scrollbar-button:single-button,
+.rec-scroll::-webkit-scrollbar-button:vertical:start:decrement,
+.rec-scroll::-webkit-scrollbar-button:vertical:end:increment,
+.rec-scroll::-webkit-scrollbar-button:vertical:start:increment,
+.rec-scroll::-webkit-scrollbar-button:vertical:end:decrement {
+  display: block;
+  width: 0;
+  height: 0;
+  background: none;
+}
+
+.rec-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rec-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--pink);
 }
 
 .rec-square-head {
@@ -156,10 +194,9 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.75rem;
-  padding: 1.15rem 1.2rem;
-  overflow: auto;
-  overscroll-behavior: contain;
+  gap: 0;
+  padding: 1.5rem 1.25rem 1.5rem 1.15rem;
+  overflow: hidden;
   box-sizing: border-box;
   text-align: left;
   font: inherit;

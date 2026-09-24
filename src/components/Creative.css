@@ -139,19 +139,13 @@
   object-fit: cover;
 }
 
-/* Tall Discord / review shots: square viewport, scroll inside */
 .gallery-figure.is-tall .gallery-frame {
-  overflow-y: auto;
-  overflow-x: hidden;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
   background: #1e1f22;
 }
 
 .gallery-figure.is-tall .gallery-frame img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: top;
 }
 
 .gallery-figure figcaption {
@@ -210,7 +204,7 @@
 }
 
 .gallery-pager-count {
-  display: none;
+  display: block;
   min-width: 3.4rem;
   font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
@@ -224,7 +218,7 @@
 }
 
 .gallery-pager-pages {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 0.35rem;
 }
@@ -302,13 +296,6 @@
     overflow: hidden;
   }
 
-  .gallery-pager-pages {
-    display: none;
-  }
-
-  .gallery-pager-count {
-    display: block;
-  }
 }
 
 @media (max-width: 700px) {

@@ -58,3 +58,26 @@
   border-radius: 50%;
   background: var(--pink-deep);
 }
+
+.highlights-more {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .highlights-list:not(.is-open) li:nth-child(n + 4) {
+    display: none;
+  }
+
+  .highlights-more {
+    display: inline-flex;
+    margin-top: 0.85rem;
+    padding: 0.45rem 0.95rem;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 252, 248, 0.72);
+    color: var(--navy);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}

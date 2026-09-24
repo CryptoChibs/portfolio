@@ -136,6 +136,7 @@ export function Recommendations() {
         <div className="rec-carousel-frame" onPointerDown={onFramePointerDown}>
           {current.kind === 'quote' ? (
             <article className="rec-square card ink-card">
+              <div className="rec-scroll">
               <header className="rec-square-head">
                 {current.image ? (
                   <img className="rec-photo" src={current.image} alt="" width={52} height={52} />
@@ -161,6 +162,7 @@ export function Recommendations() {
                 </div>
               </header>
               <blockquote className="rec-quote">{current.quote}</blockquote>
+              </div>
             </article>
           ) : (
             <button
@@ -175,9 +177,11 @@ export function Recommendations() {
               }}
               aria-label={`Open ${current.label}`}
             >
+              <span className="rec-scroll">
               <span className="rec-shot-label">{current.label}</span>
               <span className="rec-shot-frame">
                 <img key={current.id} src={current.src} alt="" />
+              </span>
               </span>
             </button>
           )}
