@@ -6,7 +6,6 @@ export function WhatIDo() {
     <section id="what" className="section what" aria-labelledby="what-title">
       <div className="section-head">
         <h2 id="what-title">What I do</h2>
-        <p>The work behind the title - community, product ops, events, and the glue in between.</p>
       </div>
       <ul className="what-grid">
         {site.whatIDo.map((item) => (

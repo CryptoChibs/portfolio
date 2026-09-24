@@ -199,9 +199,12 @@ function ExperiencePanel({
   )
 }
 
+const NARROW_EXP = '(max-width: 720px)'
+
 export function Experience() {
   const [openId, setOpenId] = useState<string | null>(null)
   const [highlightId, setHighlightId] = useState<string | null>(null)
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set())
   const highlightTimer = useRef<number | null>(null)
   const openJob = site.experience.find((j) => j.id === openId) ?? null
 
@@ -217,11 +220,23 @@ export function Experience() {
     }
   }, [])
 
+  const toggleExpanded = (id: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
   const jumpToExperience = (id: string) => {
     const el = document.getElementById(`exp-${id}`)
     if (!el) return
     if (highlightTimer.current) window.clearTimeout(highlightTimer.current)
     setHighlightId(null)
+    if (window.matchMedia(NARROW_EXP).matches) {
+      setExpanded((prev) => new Set(prev).add(id))
+    }
     el.scrollIntoView({ behavior: 'smooth', block: 'center' })
     // wait for smooth scroll to settle, then pulse (otherwise it fades before you arrive)
     highlightTimer.current = window.setTimeout(() => {
@@ -265,45 +280,57 @@ export function Experience() {
           const location = 'location' in job ? job.location : undefined
           const hasMore = jobHasMore(job)
 
+          const isOpen = expanded.has(job.id)
+
           return (
             <li key={job.id} id={`exp-${job.id}`}>
               <article
                 className={`exp-card card ink-card${
                   highlightId === job.id ? ' is-highlighted' : ''
-                }`}
+                }${isOpen ? ' is-open' : ''}`}
+                onClick={(e) => {
+                  if (!window.matchMedia(NARROW_EXP).matches) return
+                  if ((e.target as HTMLElement).closest('a, button')) return
+                  toggleExpanded(job.id)
+                }}
               >
                 <div className="exp-top">
                   <h3>{job.org}</h3>
                   <span className="exp-role">{job.role}</span>
                   <span className="exp-dates">{job.dates}</span>
                   {location ? <span className="exp-location">{location}</span> : null}
+                  <span className="exp-peek">See details</span>
                 </div>
-                <p>{job.blurb}</p>
-                <div className="exp-tags">
-                  {job.tags.map((t) => (
-                    <span key={t} className="tag">
-                      {t}
-                    </span>
-                  ))}
+                <div className="exp-body">
+                  <div className="exp-body-inner">
+                  <p>{job.blurb}</p>
+                  <div className="exp-tags">
+                    {job.tags.map((t) => (
+                      <span key={t} className="tag">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  {hasMore ? (
+                    <button
+                      type="button"
+                      className="exp-more"
+                      onClick={() => setOpenId(job.id)}
+                    >
+                      Learn more →
+                    </button>
+                  ) : job.href.startsWith('http') ? (
+                    <a
+                      className="exp-more"
+                      href={job.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Visit →
+                    </a>
+                  ) : null}
+                  </div>
                 </div>
-                {hasMore ? (
-                  <button
-                    type="button"
-                    className="exp-more"
-                    onClick={() => setOpenId(job.id)}
-                  >
-                    Learn more →
-                  </button>
-                ) : job.href.startsWith('http') ? (
-                  <a
-                    className="exp-more"
-                    href={job.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Visit →
-                  </a>
-                ) : null}
               </article>
             </li>
           )
