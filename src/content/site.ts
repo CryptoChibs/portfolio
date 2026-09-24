@@ -9,7 +9,7 @@
   links: {
     github: 'https://github.com/CryptoChibs',
     linkedin: 'https://www.linkedin.com/in/garridoacc/',
-    email: 'cwispychibi@gmail.com',
+    email: 'garridoacc@gmail.com',
     x: 'https://x.com/cwispychibi',
     cv: '/cv.pdf',
     collabLand: 'https://collab.land/',
