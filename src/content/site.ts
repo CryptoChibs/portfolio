@@ -26,7 +26,7 @@
     { value: '5+', label: 'years remote experience' },
     { value: '50K+', label: 'community members' },
     { value: '532+', label: 'GitHub issues created' },
-    { value: '170+', label: 'live community events' },
+    { value: '200+', label: 'live community events' },
   ],
   highlights: [
     '5+ years of remote experience across Community, Customer Support, and Product Operations',
@@ -34,7 +34,7 @@
     'Created 532+ GitHub issues to improve products and engineering workflows',
     'Built customer-facing products including the Collab.Land website and Member Portal',
     'Helped lead the transition from a free product to a sustainable paid pricing model',
-    'Hosted 170+ live community events across Web3 communities, including Town Halls, Dev Deep Dives, AI Research sessions, and Banano community events',
+    'Hosted 200+ live community events across Web3 communities, including Town Halls, Dev Deep Dives, AI Research sessions, and Banano community events',
     'Wrote educational articles, product guides, and 10+ documentation pages',
     'Managed Stripe subscriptions, refunds, disputes, and payment operations',
     'Coordinated operations across 18 short-term rental properties',
@@ -961,7 +961,7 @@
       'Banano is where the community arc really started.',
     ],
     speaking: [
-      '170+ live events - Town Halls, tournaments, game nights, AMAs, and more.',
+      '200+ live events - Town Halls, tournaments, game nights, AMAs, and more.',
     ],
     creative: [
       'Real work, real screenshots - no stock photos.',
