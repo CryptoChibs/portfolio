@@ -41,11 +41,12 @@ html {
   /* Default view is a step tighter than the browser's 100%. User zoom still stacks on this. */
   zoom: 0.9;
   scrollbar-width: thin;
-  scrollbar-color: var(--pink) #d7e9f6;
+  scrollbar-color: var(--pink) transparent;
 }
 
 html::-webkit-scrollbar {
   width: 12px;
+  background: transparent;
 }
 
 html::-webkit-scrollbar-button {
@@ -54,12 +55,13 @@ html::-webkit-scrollbar-button {
   height: 0;
 }
 
-html::-webkit-scrollbar-track {
-  background: #d7e9f6;
+html::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track-piece {
+  background: transparent;
 }
 
 html::-webkit-scrollbar-thumb {
-  border: 2px solid #d7e9f6;
+  border: 2px solid transparent;
   border-radius: 999px;
   background-clip: padding-box;
   background-color: var(--pink);

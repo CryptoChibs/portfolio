@@ -18,8 +18,8 @@ body.exp-panel-open .seal-guide {
   pointer-events: auto;
   max-width: min(240px, 70vw);
   padding: 0.85rem 1rem 0.7rem;
-  background: rgba(252, 240, 242, 0.96);
-  border: 1px solid rgba(235, 190, 196, 0.4);
+  background: rgba(248, 243, 236, 0.96);
+  border: 1px solid rgba(226, 212, 194, 0.55);
   border-radius: 1.1rem 1.1rem 0.35rem 1.1rem;
   box-shadow: 0 8px 22px rgba(44, 61, 82, 0.06);
   font-family: var(--font-display);
